@@ -2,44 +2,61 @@ document.addEventListener('DOMContentLoaded', function() {
     let buttons = document.getElementsByTagName('button');
  
     for (let button of buttons){
-        button.addEventListener('click', function() {
-            if(this.getAttribute("data-type") === "submit") {
-                alert('You Clicked Submit!');
+        button.addEventListener("click", function() {
+            if (this.getAttribute("data-type") === "submit") {
+                checkAnswer();
             } else {
                 let gameType = this.getAttribute("data-type");
                 runGame(gameType);
             }
-
         })
     }
     runGame("addition");
 })
 
+function checkAnswer() {
+    
+    let userAnswer = parseInt(document.getElementById("answer-box").value);
+    let calculatedAnswer = calculateCorrectAnswer();
+    let isCorrect = userAnswer === calculatedAnswer[0];
+
+    if (isCorrect) {
+        alert('Cool phooters u did it :D');
+    } else {
+        alert(`u suck. ur answer was ${userAnswer} the right answer is ${calculatedAnswer[0]}`);
+    }
+    runGame(calculatedAnswer[1]);
+}
+
 /**
  * The main game 'loop' called when the script is first loaded
- * and after the users answwer has been proccessed
+ * and after the users answer has been processed
  */
-function runGame(gameType) {
+ function runGame(gameType) {
 
-    let num1 = Math.floor(Math.random() * 25) +1;
-    let num2 = Math.floor(Math.random() * 25) +1;
+    let num1 = Math.floor(Math.random() * 25) + 1;
+    let num2 = Math.floor(Math.random() * 25) + 1;
 
-    if (gameType === 'addition') {
+    if (gameType === "addition") {
         displayAdditionQuestion(num1, num2);
     } else {
-        alert(`Unknown Game Type: ${gameType}`);
-        throw `Unknown Game Type: ${gameType}. Aborting!`;
+        alert(`Unknown game type: ${gameType}`);
+        throw `Unknown game type: ${gameType}. Aborting!`;
     }
 } 
 
-runGame()
-
-function checkAnswer() {
-    
-}
-
 function calculateCorrectAnswer() {
     
+   let operand1 = parseInt(document.getElementById('operand1').innerText);
+   let operand2 = parseInt(document.getElementById('operand2').innerText);
+   let operator = document.getElementById('operator').innerText;
+
+   if(operator === '+') {
+    return [operand1 + operand2, "addition"];
+   } else {
+       alert(`Unimlemented operator ${operator}`);
+       throw `Unimlemented operator ${operator}. Aborting!`;
+   }
 }
 
 function incrementScore() {
